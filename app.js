@@ -49,5 +49,16 @@ app.post("/articles", (req,res) => {
     });
 });
 
+// DELETE route will delete all the articles in our collection
+app.delete("/articles", (req, res) => {
+    Article.deleteMany((err) => {
+        if(!err) {
+            res.send("Successfully deleted all articles");
+        } else {
+            res.send(err);
+        }
+    })
+});
+
 
 app.listen("3000", () => console.log("Server is listening on port 3000"));
