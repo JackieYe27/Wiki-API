@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
 
+app.use(express.urlencoded({extended: true}));
+app.use(express.static("public"));
+
+
 mongoose.connect("mongodb://localhost:27017/wikiDB", {useNewUrlParser:true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -16,13 +20,20 @@ const wikiSchema = new mongoose.Schema({
     content: String
 });
 
+// Used to access articles collection
 const Article = mongoose.model("Article", wikiSchema);
 
-app.get("/", (req,res) => {
-    console.log("hello");
+// get route will read our database to find all documents in the db collection
+app.get("/articles", (req,res) => {
+    Article.find((err, foundArticles) => {
+        if(!err) {
+            res.send(foundArticles);
+        } else {
+            res.send(err);
+        }
+    });
 });
 
-app.use(express.urlencoded({extended: true}));
 
 
 
