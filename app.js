@@ -59,7 +59,7 @@ app.route("/articles")
         } else {
             res.send(err);
         }
-    })
+    });
 });
 
 // Using route for specific article
@@ -85,7 +85,7 @@ app.route("/articles/:articleTitle")
             if (!err) res.send("Successfully updated article");
             else res.send("Uh Oh Error!");
         }
-    )
+    );
 })
 
 // updating a specific article given specific fields
@@ -97,7 +97,18 @@ app.route("/articles/:articleTitle")
             if(!err) res.send("Successfully updated article");
             else res.send("Error!");
         }
-    )
+    );
 })
+
+// Delete a specific article
+.delete((req,res) => {
+    Article.deleteOne(
+        {title:req.params.articleTitle},
+        (err) => {
+            if(!err) res.send("Successfully deleted article");
+            else res.send("Uh Oh Error");
+        }
+    );
+});
 
 app.listen("3000", () => console.log("Server is listening on port 3000"));
