@@ -88,4 +88,16 @@ app.route("/articles/:articleTitle")
     )
 })
 
+// updating a specific article given specific fields
+.patch((req, res) => {
+    Article.updateOne(
+        {title: req.params.articleTitle},
+        {$set: req.body},
+        (err) => {
+            if(!err) res.send("Successfully updated article");
+            else res.send("Error!");
+        }
+    )
+})
+
 app.listen("3000", () => console.log("Server is listening on port 3000"));
