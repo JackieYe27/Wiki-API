@@ -62,4 +62,16 @@ app.route("/articles")
     })
 });
 
+// Using route for specific article
+app.route("/articles/:articleTitle")
+
+// chaining on a get method
+.get((req,res) => {
+    
+    Article.findOne({title: req.params.articleTitle}, (err, foundArticle) => {
+        if(!err) res.send(foundArticle);
+        else res.send(err);
+    });
+})
+
 app.listen("3000", () => console.log("Server is listening on port 3000"));
