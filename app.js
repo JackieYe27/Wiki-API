@@ -23,8 +23,10 @@ const wikiSchema = new mongoose.Schema({
 // Used to access articles collection
 const Article = mongoose.model("Article", wikiSchema);
 
+app.route("/articles")
+
 // GET route will read our database to find all documents in the db collection
-app.get("/articles", (req,res) => {
+.get((req,res) => {
     Article.find((err, foundArticles) => {
         if(!err) {
             res.send(foundArticles);
@@ -32,10 +34,10 @@ app.get("/articles", (req,res) => {
             res.send(err);
         }
     });
-});
+})
 
 // POST route will post to our wikiDB creating a new document to our articles collection
-app.post("/articles", (req,res) => {
+.post((req,res) => {
     let requestedTitle= req.body.title;
     let requestedContent = req.body.content;
     // create new article then save article
@@ -47,10 +49,10 @@ app.post("/articles", (req,res) => {
         if(!err) res.send("Successfully added a new article");
         else res.send(err);
     });
-});
+})
 
 // DELETE route will delete all the articles in our collection
-app.delete("/articles", (req, res) => {
+.delete((req, res) => {
     Article.deleteMany((err) => {
         if(!err) {
             res.send("Successfully deleted all articles");
@@ -59,6 +61,5 @@ app.delete("/articles", (req, res) => {
         }
     })
 });
-
 
 app.listen("3000", () => console.log("Server is listening on port 3000"));
