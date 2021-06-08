@@ -74,4 +74,18 @@ app.route("/articles/:articleTitle")
     });
 })
 
+// updating specific article
+// Note that PUT requests change the entire article with a new one so leaving out content could cause issues
+.put((req,res) => {
+    Article.updateOne(
+        {title: req.params.articleTitle},
+        {title: req.body.title, content: req.body.content},
+        {overwrite: true},
+        (err) => {
+            if (!err) res.send("Successfully updated article");
+            else res.send("Uh Oh Error!");
+        }
+    )
+})
+
 app.listen("3000", () => console.log("Server is listening on port 3000"));
